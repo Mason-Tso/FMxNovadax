@@ -92,15 +92,11 @@ nav.solid{background:rgba(0,0,0,.97)}
 .nav-cta:hover{opacity:.82!important}
 
 /* ─── HERO ─── */
-.hero{min-height:100vh;padding-top:64px;display:flex;align-items:center;position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;z-index:0}
-.hero-bg::before{content:'';position:absolute;width:1000px;height:1000px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,90,.06),transparent 60%);top:-350px;left:-300px;animation:orb1 15s ease-in-out infinite alternate}
-.hero-bg::after{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,53,102,.1),transparent 60%);bottom:-200px;right:-100px;animation:orb2 11s ease-in-out infinite alternate}
-@keyframes orb1{0%{transform:translate(0,0)}100%{transform:translate(90px,60px)}}
-@keyframes orb2{0%{transform:translate(0,0)}100%{transform:translate(-55px,-40px)}}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.013) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.013) 1px,transparent 1px);background-size:72px 72px}
-.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;width:100%}
-.hero-copy{padding:88px 0}
+.hero{min-height:100vh;padding-top:64px;display:flex;align-items:center;position:relative;overflow:hidden;background:url('background.png') center/cover no-repeat}
+.hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(105deg,rgba(0,0,0,.92) 45%,rgba(0,0,0,.45) 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:72px 72px}
+.hero-inner{position:relative;z-index:1;display:flex;align-items:center;width:100%}
+.hero-copy{padding:88px 0;max-width:580px}
 
 .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,90,.08);border:1px solid rgba(0,212,90,.2);color:#00D45A;padding:5px 14px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:26px}
 .eyebrow-dot{width:6px;height:6px;background:#00D45A;border-radius:50%;animation:blink 2s infinite}
@@ -365,7 +361,7 @@ footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
     </a>
   </div>
   <ul class="nav-links">
-    <li><a href="#credits" class="nav-cta">Resgatar Créditos</a></li>
+    <li><a href="#download" class="nav-cta">Baixar App</a></li>
   </ul>
 </nav>
 
@@ -380,8 +376,8 @@ footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
         <h1 class="hero-h1">Do Brasil<br>para <span class="gt">Wall Street.</span></h1>
         <p class="hero-sub">Ações americanas, pré-IPOs exclusivos e análise de IA em tempo real. Integrado diretamente à sua conta NovaDAX.</p>
         <div class="hero-btns">
-          <a href="#credits" class="btn-green">
-            Resgatar Créditos
+          <a href="#download" class="btn-green">
+            Baixar o App
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <a href="#news" class="btn-ghost">Ver Recursos</a>
@@ -395,29 +391,6 @@ footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3.609 1.814L13.792 12 3.61 22.186a1.5 1.5 0 01-.61-1.186V3c0-.48.23-.908.609-1.186z" fill="#EA4335"/><path d="M17.5 8.5L5.5 1.5l8.293 10.5L17.5 8.5z" fill="#FBBC04"/><path d="M17.5 15.5l-3.707-3.5L5.5 22.5l12-7z" fill="#34A853"/><path d="M20.391 9.686L17.5 8.5 14 12l3.5 3.5 2.891-1.186A1.5 1.5 0 0021 13v-2a1.5 1.5 0 00-.609-1.314z" fill="#4285F4"/></svg>
             <div class="dl-label"><span>Disponível no</span><strong>Google Play</strong></div>
           </a>
-        </div>
-      </div>
-      <div class="hero-phones">
-        <div class="h-phone-back">
-          <div class="phone-shell">
-            <div class="phone-body">
-              <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
-              <img class="phone-screen" src="port.png" alt="Portfolio">
-              <div class="phone-home-bar"></div>
-            </div>
-            <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
-          </div>
-        </div>
-        <div class="h-phone-front float">
-          <div class="phone-shell">
-            <div class="phone-glow"></div>
-            <div class="phone-body">
-              <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
-              <img class="phone-screen" src="Macro.png" alt="Macro News">
-              <div class="phone-home-bar"></div>
-            </div>
-            <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
-          </div>
         </div>
       </div>
     </div>
@@ -445,28 +418,6 @@ footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
   </div>
 </section>
 
-<!-- ────────── CREDITS PROMO ────────── -->
-<section class="credits-wrap" id="credits">
-  <div class="container">
-    <div class="credits-card">
-      <div>
-        <div class="credits-badge">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1l1.2 2.5L9 4l-2 1.9.5 2.6L5 7.2 2.5 8.5 3 5.9 1 4l2.8-.5z" fill="#00D45A"/></svg>
-          Oferta Exclusiva NovaDAX
-        </div>
-        <h3 class="credits-h">Cadastre-se pela NovaDAX e<br>ganhe créditos na Freeport Markets.</h3>
-        <p class="credits-p">Use o link exclusivo da parceria NovaDAX e receba créditos para começar a operar ações americanas sem custo inicial. Oferta válida para novos usuários da Freeport.</p>
-      </div>
-      <div class="credits-cta">
-        <a href="#" class="btn-credits">
-          Resgatar Créditos
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <span class="credits-note">Via link exclusivo NovaDAX</span>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ────────── FEATURE: NEWS FEED ────────── -->
 <section class="feat dark" id="news">
@@ -659,33 +610,6 @@ footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
   </div>
 </section>
 
-<!-- ────────── STEPS ────────── -->
-<section class="steps-sec" id="steps">
-  <div class="container">
-    <div class="steps-hd">
-      <div class="lbl" style="justify-content:center">Como Começar</div>
-      <h2>Três passos.<br>Sem complicação.</h2>
-      <p>Da sua conta NovaDAX ao mercado americano em minutos.</p>
-    </div>
-    <div class="steps-row">
-      <div>
-        <div class="step-num">01</div>
-        <h3 class="step-h">Crie sua conta na Freeport</h3>
-        <p class="step-p">Baixe o app da Freeport Markets e crie sua conta em menos de 5 minutos.</p>
-      </div>
-      <div>
-        <div class="step-num">02</div>
-        <h3 class="step-h">Conecte sua conta NovaDAX</h3>
-        <p class="step-p">Vincule sua conta NovaDAX para depósitos, saques e para resgatar seus créditos exclusivos.</p>
-      </div>
-      <div>
-        <div class="step-num">03</div>
-        <h3 class="step-h">Comece a investir</h3>
-        <p class="step-p">Explore ações americanas, pré-IPOs e use a IA para tomar as melhores decisões.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ────────── CTA ────────── -->
 <section class="cta-sec">
@@ -693,10 +617,6 @@ footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
     <h2 class="cta-h">O futuro dos<br>investimentos<br><span class="gt">começa agora.</span></h2>
     <p class="cta-sub">Junte-se a quem já opera o mercado americano direto do Brasil com a Freeport x NovaDAX.</p>
     <div class="cta-btns">
-      <a href="#credits" class="btn-green" style="font-size:16px;padding:16px 40px">
-        Resgatar Créditos
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9H15M15 9L10 4M15 9L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
       <a href="https://apps.apple.com/us/app/freeport-markets/id6758952978" target="_blank" rel="noopener" class="dl-btn" style="padding:14px 22px" aria-label="App Store">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
         <div class="dl-label"><span>Baixar na</span><strong>App Store</strong></div>
