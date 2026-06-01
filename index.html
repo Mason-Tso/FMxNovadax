@@ -121,6 +121,36 @@ nav.solid{background:rgba(0,0,0,.97)}
 .h-phone-front{position:absolute;right:0;top:50%;transform:translateY(-46%) rotate(5deg);--r:5deg}
 .h-phone-front .phone-body{width:255px}
 
+/* ─── DOWNLOAD BUTTONS ─── */
+.dl-row{display:flex;gap:10px;flex-wrap:wrap}
+.dl-btn{
+  display:inline-flex;align-items:center;gap:11px;
+  background:rgba(255,255,255,0.055);
+  border:1px solid rgba(255,255,255,0.13);
+  border-radius:12px;padding:11px 20px;
+  text-decoration:none;color:#fff;
+  transition:all .22s;min-width:148px;
+}
+.dl-btn:hover{
+  background:rgba(255,255,255,0.1);
+  border-color:rgba(255,255,255,0.26);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,0,0,0.4);
+}
+.dl-btn svg{flex-shrink:0;opacity:.9}
+.dl-label{display:flex;flex-direction:column;gap:1px}
+.dl-label span{font-size:10px;color:rgba(255,255,255,.45);line-height:1;font-weight:400}
+.dl-label strong{font-size:15px;font-weight:700;line-height:1.2;letter-spacing:-.2px}
+
+/* ─── DOWNLOAD SECTION ─── */
+.dl-sec{padding:100px 0;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);background:#060606;position:relative;overflow:hidden}
+.dl-sec::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,90,.05),transparent 60%);top:50%;left:-150px;transform:translateY(-50%);pointer-events:none}
+.dl-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.dl-phones-wrap{display:flex;gap:24px;justify-content:center;align-items:flex-end}
+.dl-platform-icons{display:flex;align-items:center;gap:10px;margin-top:10px}
+.dl-platform-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.35);font-weight:500}
+.dl-platform-badge svg{opacity:.4}
+
 .up{color:#00D45A}.dn{color:#FF4444}
 
 /* ─── PARTNERSHIP ─── */
@@ -285,6 +315,11 @@ footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
   .credits-card{grid-template-columns:1fr;padding:32px 24px;gap:28px}
   .credits-cta{align-items:flex-start}
 
+  /* download */
+  .dl-sec{padding:72px 0}
+  .dl-inner{grid-template-columns:1fr;gap:44px}
+  .dl-phones-wrap{display:none}
+
   /* steps */
   .steps-sec{padding:72px 0}
   .steps-row{grid-template-columns:1fr;gap:32px}
@@ -351,13 +386,23 @@ footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
           </a>
           <a href="#news" class="btn-ghost">Ver Recursos</a>
         </div>
+        <div class="dl-row" style="margin-top:20px">
+          <a href="#" class="dl-btn" aria-label="Download no App Store">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="dl-label"><span>Baixar na</span><strong>App Store</strong></div>
+          </a>
+          <a href="#" class="dl-btn" aria-label="Download no Google Play">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3.609 1.814L13.792 12 3.61 22.186a1.5 1.5 0 01-.61-1.186V3c0-.48.23-.908.609-1.186z" fill="#EA4335"/><path d="M17.5 8.5L5.5 1.5l8.293 10.5L17.5 8.5z" fill="#FBBC04"/><path d="M17.5 15.5l-3.707-3.5L5.5 22.5l12-7z" fill="#34A853"/><path d="M20.391 9.686L17.5 8.5 14 12l3.5 3.5 2.891-1.186A1.5 1.5 0 0021 13v-2a1.5 1.5 0 00-.609-1.314z" fill="#4285F4"/></svg>
+            <div class="dl-label"><span>Disponível no</span><strong>Google Play</strong></div>
+          </a>
+        </div>
       </div>
       <div class="hero-phones">
         <div class="h-phone-back">
           <div class="phone-shell">
             <div class="phone-body">
               <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
-              <img class="phone-screen" src="USstocks.png" alt="US Stocks">
+              <img class="phone-screen" src="port.png" alt="Portfolio">
               <div class="phone-home-bar"></div>
             </div>
             <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
@@ -368,7 +413,7 @@ footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
             <div class="phone-glow"></div>
             <div class="phone-body">
               <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
-              <img class="phone-screen" src="smartanalyst.png" alt="IA Analista">
+              <img class="phone-screen" src="Macro.png" alt="Macro News">
               <div class="phone-home-bar"></div>
             </div>
             <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
@@ -559,6 +604,61 @@ footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
 </section>
 
 
+<!-- ────────── DOWNLOAD ────────── -->
+<section class="dl-sec" id="download">
+  <div class="container">
+    <div class="dl-inner">
+      <div>
+        <div class="lbl">Disponível Agora</div>
+        <h2 class="feat-h2">iOS e Android.<br><span class="gt">Baixe grátis.</span></h2>
+        <p class="feat-p">Crie sua conta em menos de 5 minutos e comece a investir no mercado americano. Gratuito para baixar, disponível em qualquer dispositivo.</p>
+        <div class="dl-row">
+          <a href="#" class="dl-btn" aria-label="Download no App Store">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="dl-label"><span>Baixar na</span><strong>App Store</strong></div>
+          </a>
+          <a href="#" class="dl-btn" aria-label="Download no Google Play">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3.609 1.814L13.792 12 3.61 22.186A1.5 1.5 0 013 21V3c0-.48.23-.908.609-1.186z" fill="#EA4335"/><path d="M17.5 8.5L5.5 1.5l8.293 10.5L17.5 8.5z" fill="#FBBC04"/><path d="M17.5 15.5l-3.707-3.5L5.5 22.5l12-7z" fill="#34A853"/><path d="M20.391 9.686L17.5 8.5 14 12l3.5 3.5 2.891-1.186A1.5 1.5 0 0021 13v-2a1.5 1.5 0 00-.609-1.314z" fill="#4285F4"/></svg>
+            <div class="dl-label"><span>Disponível no</span><strong>Google Play</strong></div>
+          </a>
+        </div>
+        <div class="dl-platform-icons">
+          <div class="dl-platform-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            iOS 15+
+          </div>
+          <span style="color:rgba(255,255,255,.15)">·</span>
+          <div class="dl-platform-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48A5.84 5.84 0 0012 1.5c-.96 0-1.86.23-2.66.63L7.85.65c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31A5.956 5.956 0 006 8h12c0-1.99-.97-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>
+            Android 8+
+          </div>
+          <span style="color:rgba(255,255,255,.15)">·</span>
+          <div class="dl-platform-badge">Gratuito</div>
+        </div>
+      </div>
+      <div class="dl-phones-wrap">
+        <div class="phone-shell" style="transform:rotate(-5deg);opacity:.7">
+          <div class="phone-body" style="width:200px">
+            <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
+            <img class="phone-screen" src="port.png" alt="Portfolio">
+            <div class="phone-home-bar"></div>
+          </div>
+          <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
+        </div>
+        <div class="phone-shell float" style="transform:rotate(3deg)">
+          <div class="phone-glow"></div>
+          <div class="phone-body" style="width:220px">
+            <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
+            <img class="phone-screen" src="Macro.png" alt="Macro News">
+            <div class="phone-home-bar"></div>
+          </div>
+          <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ────────── STEPS ────────── -->
 <section class="steps-sec" id="steps">
   <div class="container">
@@ -597,7 +697,14 @@ footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
         Resgatar Créditos
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9H15M15 9L10 4M15 9L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <a href="#news" class="btn-ghost" style="font-size:16px;padding:16px 40px">Ver Recursos</a>
+      <a href="#" class="dl-btn" style="padding:14px 22px" aria-label="App Store">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        <div class="dl-label"><span>Baixar na</span><strong>App Store</strong></div>
+      </a>
+      <a href="#" class="dl-btn" style="padding:14px 22px" aria-label="Google Play">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3.609 1.814L13.792 12 3.61 22.186A1.5 1.5 0 013 21V3c0-.48.23-.908.609-1.186z" fill="#EA4335"/><path d="M17.5 8.5L5.5 1.5l8.293 10.5L17.5 8.5z" fill="#FBBC04"/><path d="M17.5 15.5l-3.707-3.5L5.5 22.5l12-7z" fill="#34A853"/><path d="M20.391 9.686L17.5 8.5 14 12l3.5 3.5 2.891-1.186A1.5 1.5 0 0021 13v-2a1.5 1.5 0 00-.609-1.314z" fill="#4285F4"/></svg>
+        <div class="dl-label"><span>Disponível no</span><strong>Google Play</strong></div>
+      </a>
     </div>
   </div>
 </section>
