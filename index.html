@@ -1,926 +1,676 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Freeport Markets × NovaDAX — Acesse ações americanas, pré-IPOs exclusivos e análise de IA em tempo real.">
-    <title>Freeport Markets × NovaDAX</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freeport Markets x NovaDAX</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#000;color:#fff;font-family:'Satoshi',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.container{max-width:1160px;margin:0 auto;padding:0 36px}
+.gt{background:linear-gradient(120deg,#00D45A,#0BC47A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
-        :root {
-            --green: #00D464;
-            --green-glow: rgba(0,212,100,0.3);
-            --green-dim: rgba(0,212,100,0.08);
-            --green-border: rgba(0,212,100,0.22);
-            --novadax: #003566;
-            --novadax-teal: #0BC47A;
-            --red: #FF4444;
-            --bg: #000000;
-            --bg1: #0A0A0A;
-            --bg2: #111111;
-            --card: rgba(255,255,255,0.035);
-            --border: rgba(255,255,255,0.08);
-            --text: #FFFFFF;
-            --muted: rgba(255,255,255,0.45);
-            --dim: rgba(255,255,255,0.22);
-        }
+/* ─── PHONE SHELL ─── */
+.phone-shell{
+  position:relative;
+  display:inline-block;
+  padding:3px 3px;
+}
+/* glow ring */
+.phone-shell::before{
+  content:'';
+  position:absolute;
+  inset:-2px;
+  border-radius:52px;
+  background:linear-gradient(155deg,rgba(0,212,90,0.6),rgba(0,0,0,0) 45%,rgba(11,196,122,0.4));
+  z-index:0;
+}
+.phone-body{
+  position:relative;z-index:1;
+  width:270px;
+  border-radius:48px;
+  background:#000;
+  border:1.5px solid rgba(255,255,255,0.12);
+  overflow:hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 90px 160px -20px rgba(0,0,0,1),
+    0 30px 60px rgba(0,0,0,0.7);
+}
+.phone-notch{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:100px;height:30px;background:#000;
+  border-radius:0 0 20px 20px;z-index:20;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  border-bottom:1.5px solid rgba(255,255,255,0.06);
+}
+.phone-notch-dot{width:9px;height:9px;border-radius:50%;background:#0d0d0d;border:1px solid rgba(255,255,255,0.08)}
+.phone-notch-bar{width:30px;height:4px;background:#0d0d0d;border-radius:2px}
+.phone-screen{width:100%;display:block;object-fit:cover;object-position:top}
+.phone-home-bar{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  width:88px;height:4px;background:rgba(255,255,255,0.22);
+  border-radius:3px;z-index:20;
+}
+/* side buttons */
+.pb-power{position:absolute;z-index:2;right:-2px;top:22%;width:2.5px;height:58px;background:rgba(255,255,255,0.14);border-radius:0 2px 2px 0}
+.pb-silent{position:absolute;z-index:2;left:-2px;top:17%;width:2.5px;height:26px;background:rgba(255,255,255,0.11);border-radius:2px 0 0 2px}
+.pb-volup{position:absolute;z-index:2;left:-2px;top:27%;width:2.5px;height:44px;background:rgba(255,255,255,0.11);border-radius:2px 0 0 2px}
+.pb-voldn{position:absolute;z-index:2;left:-2px;top:39%;width:2.5px;height:44px;background:rgba(255,255,255,0.11);border-radius:2px 0 0 2px}
+/* glow under phone */
+.phone-glow{position:absolute;inset:-80px;background:radial-gradient(ellipse,rgba(0,212,90,0.09),transparent 60%);animation:glowPulse 4s ease-in-out infinite alternate;pointer-events:none;z-index:0}
+@keyframes glowPulse{0%{opacity:.5;transform:scale(.9)}100%{opacity:1;transform:scale(1.1)}}
+.float{animation:pFloat 6s ease-in-out infinite}
+@keyframes pFloat{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-16px) rotate(var(--r,0deg))}}
 
-        html { scroll-behavior: smooth; }
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  height:64px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  transition:background .3s;
+}
+nav.solid{background:rgba(0,0,0,.97)}
+.nav-brand{display:flex;align-items:center;gap:16px}
+.nav-fm{display:flex;align-items:center;gap:9px;text-decoration:none}
+.nav-fm img{height:26px;filter:brightness(0) invert(1);display:block}
+.nav-fm span{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#fff;letter-spacing:-.1px}
+.nav-divider{width:1px;height:20px;background:rgba(255,255,255,0.1)}
+.nav-nd{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-nd-icon{width:28px;height:28px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:3px;overflow:hidden;flex-shrink:0}
+.nav-nd-icon img{width:100%;height:100%;object-fit:contain}
+.nav-nd span{font-family:'Satoshi',sans-serif;font-size:15px;font-weight:600;color:#0BC47A;letter-spacing:-.1px}
+.nav-links{display:flex;align-items:center;gap:30px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.45);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-cta{background:#00D45A!important;color:#000!important;padding:8px 22px;border-radius:8px;font-weight:700!important;transition:opacity .2s!important}
+.nav-cta:hover{opacity:.82!important}
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+/* ─── HERO ─── */
+.hero{min-height:100vh;padding-top:64px;display:flex;align-items:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg::before{content:'';position:absolute;width:1000px;height:1000px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,90,.06),transparent 60%);top:-350px;left:-300px;animation:orb1 15s ease-in-out infinite alternate}
+.hero-bg::after{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,53,102,.1),transparent 60%);bottom:-200px;right:-100px;animation:orb2 11s ease-in-out infinite alternate}
+@keyframes orb1{0%{transform:translate(0,0)}100%{transform:translate(90px,60px)}}
+@keyframes orb2{0%{transform:translate(0,0)}100%{transform:translate(-55px,-40px)}}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.013) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.013) 1px,transparent 1px);background-size:72px 72px}
+.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;width:100%}
+.hero-copy{padding:88px 0}
 
-        .container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,90,.08);border:1px solid rgba(0,212,90,.2);color:#00D45A;padding:5px 14px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:26px}
+.eyebrow-dot{width:6px;height:6px;background:#00D45A;border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 
-        /* ── NAV ── */
-        nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-            height: 68px;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 40px;
-            background: rgba(0,0,0,0.72);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid var(--border);
-            transition: background 0.3s;
-        }
-        nav.scrolled { background: rgba(0,0,0,0.96); }
+.hero-h1{font-family:'Satoshi',sans-serif;font-size:clamp(44px,6.5vw,82px);font-weight:700;line-height:1.04;letter-spacing:-2px;margin-bottom:24px}
+.hero-sub{font-family:'Satoshi',sans-serif;font-size:17px;color:rgba(255,255,255,.48);line-height:1.74;max-width:440px;margin-bottom:36px;font-weight:400}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
 
-        .nav-brand { display: flex; align-items: center; gap: 6px; }
-        .nav-fp { display: flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
-        .nav-x { color: var(--dim); font-weight: 300; font-size: 18px; margin: 0 2px; }
-        .nav-nd { display: flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 800; letter-spacing: -0.3px; color: var(--novadax-teal); }
+.btn-green{display:inline-flex;align-items:center;gap:8px;background:#00D45A;color:#000;padding:14px 28px;border-radius:10px;font-weight:800;font-size:15px;text-decoration:none;transition:transform .2s,box-shadow .2s;letter-spacing:-.2px}
+.btn-green:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,212,90,.3)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;padding:14px 28px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid rgba(255,255,255,.1);transition:all .2s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.04)}
 
-        .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
-        .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-        .nav-links a:hover { color: #fff; }
-        .nav-cta { background: var(--green) !important; color: #000 !important; padding: 8px 20px; border-radius: 8px; font-weight: 700 !important; transition: opacity 0.2s !important; }
-        .nav-cta:hover { opacity: 0.82 !important; color: #000 !important; }
+.hero-phones{position:relative;height:640px;display:flex;align-items:center;justify-content:center}
+.h-phone-back{position:absolute;left:0;top:50%;transform:translateY(-54%) rotate(-8deg);opacity:.55}
+.h-phone-back .phone-body{width:230px}
+.h-phone-front{position:absolute;right:0;top:50%;transform:translateY(-46%) rotate(5deg);--r:5deg}
+.h-phone-front .phone-body{width:255px}
 
-        /* ── HERO ── */
-        .hero {
-            min-height: 100vh; padding-top: 68px;
-            display: flex; align-items: center;
-            position: relative; overflow: hidden;
-        }
+.up{color:#00D45A}.dn{color:#FF4444}
 
-        .hero-bg {
-            position: absolute; inset: 0; z-index: 0;
-            background:
-                radial-gradient(ellipse 65% 65% at 10% 50%, rgba(0,212,100,0.065) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 60% at 90% 15%, rgba(0,53,102,0.14) 0%, transparent 55%),
-                radial-gradient(ellipse 40% 40% at 55% 95%, rgba(11,196,122,0.05) 0%, transparent 50%);
-            animation: ambient 12s ease-in-out infinite alternate;
-        }
-        @keyframes ambient {
-            0%   { transform: scale(1)    translate(0,0); }
-            100% { transform: scale(1.06) translate(-1.5%,1.5%); }
-        }
-        .hero-bg::after {
-            content: '';
-            position: absolute; inset: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
-            background-size: 64px 64px;
-        }
+/* ─── PARTNERSHIP ─── */
+.partnership{
+  padding:100px 0;
+  background:#040404;
+  border-top:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  position:relative;overflow:hidden;text-align:center;
+}
+.partnership::before{
+  content:'PARCERIA';
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Satoshi',sans-serif;
+  font-size:clamp(100px,18vw,220px);font-weight:700;
+  color:rgba(255,255,255,.012);
+  white-space:nowrap;letter-spacing:-12px;
+  pointer-events:none;user-select:none;
+}
+.part-tag{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:40px}
+.part-logos{display:flex;align-items:center;justify-content:center;gap:40px;margin-bottom:48px}
+.part-logo-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.part-fm-icon{width:64px;height:64px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;display:flex;align-items:center;justify-content:center;padding:12px}
+.part-fm-icon img{width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1)}
+.part-logo-name{font-family:'Satoshi',sans-serif;font-size:16px;font-weight:600;letter-spacing:-.1px}
+.part-nd-icon{width:64px;height:64px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:7px}
+.part-nd-icon img{width:100%;height:100%;object-fit:contain}
+.part-x{font-family:'Satoshi',sans-serif;font-size:32px;font-weight:300;color:rgba(255,255,255,.2);line-height:1;padding-bottom:28px}
+.part-headline{font-family:'Satoshi',sans-serif;font-size:clamp(22px,2.8vw,38px);font-weight:700;letter-spacing:-0.8px;line-height:1.2;max-width:680px;margin:0 auto 20px}
+.part-sub{font-family:'Satoshi',sans-serif;font-size:17px;color:rgba(255,255,255,.45);max-width:520px;margin:0 auto;line-height:1.72;font-weight:400}
 
-        .hero-inner {
-            position: relative; z-index: 1;
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 60px; align-items: center; width: 100%;
-        }
+/* ─── CREDITS PROMO ─── */
+.credits-wrap{padding:64px 0;background:#000}
+.credits-card{
+  position:relative;overflow:hidden;
+  background:linear-gradient(120deg,rgba(0,212,90,.08),rgba(11,196,122,.05));
+  border:1px solid rgba(0,212,90,.25);
+  border-radius:24px;padding:56px 64px;
+  display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;
+}
+.credits-card::before{
+  content:'';position:absolute;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,212,90,.07),transparent 65%);
+  top:-150px;right:-100px;pointer-events:none;
+}
+.credits-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,212,90,.12);border:1px solid rgba(0,212,90,.3);color:#00D45A;padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.credits-h{font-family:'Satoshi',sans-serif;font-size:clamp(22px,2.6vw,34px);font-weight:700;letter-spacing:-0.6px;line-height:1.14;margin-bottom:12px}
+.credits-p{font-size:15px;color:rgba(255,255,255,.5);line-height:1.68;max-width:500px}
+.credits-cta{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:10px}
+.btn-credits{display:inline-flex;align-items:center;gap:8px;background:#00D45A;color:#000;padding:16px 32px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none;white-space:nowrap;transition:transform .2s,box-shadow .2s}
+.btn-credits:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,212,90,.3)}
+.credits-note{font-size:11px;color:rgba(255,255,255,.3);text-align:center}
 
-        .hero-content { padding: 80px 0; }
+/* ─── FEATURE SECTIONS ─── */
+.feat{padding:112px 0;position:relative;overflow:hidden}
+.feat.dark{background:#060606;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07)}
+.feat-glow{position:absolute;width:700px;height:700px;border-radius:50%;pointer-events:none;top:50%;transform:translateY(-50%)}
+.feat-glow.l{left:-200px;background:radial-gradient(circle,rgba(0,212,90,.055),transparent 58%)}
+.feat-glow.r{right:-200px;background:radial-gradient(circle,rgba(11,196,122,.055),transparent 58%)}
 
-        .badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(0,212,100,0.09); border: 1px solid var(--green-border);
-            color: var(--green); padding: 5px 14px; border-radius: 100px;
-            font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
-            text-transform: uppercase; margin-bottom: 26px;
-        }
-        .badge-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 2s infinite; }
-        @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.45;transform:scale(0.75)} }
+.feat-inner{display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center;position:relative;z-index:1}
+.feat-inner.rev .feat-copy{order:2}
+.feat-inner.rev .feat-vis{order:1}
 
-        .hero-h1 {
-            font-size: clamp(44px, 5.8vw, 76px);
-            font-weight: 900; line-height: 1.03;
-            letter-spacing: -2.5px; margin-bottom: 22px;
-        }
-        .hero-h1 span { color: var(--green); }
+.lbl{display:inline-flex;align-items:center;gap:8px;color:#00D45A;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+.lbl::before{content:'';width:14px;height:2px;background:#00D45A;border-radius:2px}
 
-        .hero-sub {
-            font-size: 17px; color: var(--muted); line-height: 1.72;
-            max-width: 470px; margin-bottom: 38px; font-weight: 400;
-        }
+.feat-h2{font-family:'Satoshi',sans-serif;font-size:clamp(32px,3.4vw,50px);font-weight:700;letter-spacing:-1.2px;line-height:1.1;margin-bottom:18px}
+.feat-p{font-family:'Satoshi',sans-serif;font-size:16px;color:rgba(255,255,255,.5);line-height:1.74;margin-bottom:28px;max-width:420px;font-weight:400}
 
-        .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.feat-list{list-style:none;display:flex;flex-direction:column;gap:11px}
+.feat-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,.65);line-height:1.55}
+.feat-list li::before{
+  content:'';flex-shrink:0;margin-top:2px;
+  width:17px;height:17px;border-radius:50%;
+  background:rgba(0,212,90,.1);border:1px solid rgba(0,212,90,.28);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 5.2l2 2L8 3' stroke='%2300D45A' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:center;
+}
 
-        .btn-g {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: var(--green); color: #000;
-            padding: 14px 28px; border-radius: 10px;
-            font-weight: 800; font-size: 15px; text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn-g:hover { transform: translateY(-2px); box-shadow: 0 10px 32px var(--green-glow); }
+.feat-vis{display:flex;justify-content:center;align-items:center;position:relative}
 
-        .btn-o {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: transparent; color: #fff;
-            padding: 14px 28px; border-radius: 10px;
-            font-weight: 600; font-size: 15px; text-decoration: none;
-            border: 1px solid var(--border); transition: all 0.2s;
-        }
-        .btn-o:hover { border-color: rgba(255,255,255,0.24); background: rgba(255,255,255,0.04); }
+/* Pre-IPO special */
+.preipo-stat-row{display:flex;gap:24px;margin-top:28px;flex-wrap:wrap}
+.preipo-stat{background:rgba(0,212,90,.06);border:1px solid rgba(0,212,90,.15);border-radius:12px;padding:16px 20px;flex:1;min-width:130px}
+.preipo-stat-n{font-family:'Satoshi',sans-serif;font-size:28px;font-weight:700;letter-spacing:-1px;background:linear-gradient(120deg,#00D45A,#0BC47A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.preipo-stat-l{font-size:11px;color:rgba(255,255,255,.4);margin-top:4px;line-height:1.4}
 
-        /* ── PHONE MOCKUP ── */
-        .hero-visual { display: flex; justify-content: center; align-items: center; }
 
-        .phone-wrap { animation: float 5.5s ease-in-out infinite; }
-        @keyframes float {
-            0%,100% { transform: translateY(0)  rotate(-2.5deg); }
-            50%      { transform: translateY(-18px) rotate(-2.5deg); }
-        }
+/* ─── STEPS ─── */
+.steps-sec{padding:112px 0}
+.steps-hd{text-align:center;margin-bottom:72px}
+.steps-hd h2{font-family:'Satoshi',sans-serif;font-size:clamp(32px,4vw,52px);font-weight:700;letter-spacing:-1px;margin-bottom:14px}
+.steps-hd p{font-size:16px;color:rgba(255,255,255,.45);max-width:380px;margin:0 auto;line-height:1.7}
+.steps-row{display:grid;grid-template-columns:repeat(3,1fr);gap:60px;position:relative}
+.steps-row::before{content:'';position:absolute;height:1px;left:calc(16.5%+24px);right:calc(16.5%+24px);top:34px;background:linear-gradient(90deg,rgba(0,212,90,.2),rgba(0,0,0,0),rgba(0,212,90,.2))}
+.step-num{font-family:'Satoshi',sans-serif;font-size:52px;font-weight:700;letter-spacing:-2px;line-height:1;color:rgba(0,212,90,.15);margin-bottom:16px}
+.step-h{font-family:'Satoshi',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.2px;margin-bottom:10px}
+.step-p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.72}
 
-        .phone {
-            width: 238px;
-            background: #080808;
-            border-radius: 36px;
-            border: 1px solid rgba(255,255,255,0.11);
-            overflow: hidden;
-            box-shadow:
-                0 0 0 1px rgba(0,212,100,0.07),
-                0 44px 90px rgba(0,0,0,0.85),
-                0 0 70px rgba(0,212,100,0.06);
-        }
-        .p-notch { width: 76px; height: 20px; background: #000; border-radius: 0 0 13px 13px; margin: 0 auto; }
-        .p-status { display: flex; justify-content: space-between; padding: 4px 16px 0; font-size: 8.5px; color: var(--muted); font-weight: 600; }
-        .p-topbar { display: flex; justify-content: space-between; align-items: center; padding: 7px 12px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .p-tabs { display: flex; gap: 10px; padding: 0 12px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .p-tab { font-size: 7.5px; font-weight: 600; color: var(--dim); padding-bottom: 3px; }
-        .p-tab.on { color: var(--green); border-bottom: 1.5px solid var(--green); }
+/* ─── CTA ─── */
+.cta-sec{padding:130px 0;text-align:center;position:relative;overflow:hidden;background:#060606;border-top:1px solid rgba(255,255,255,.07)}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(0,212,90,.07),transparent 58%);pointer-events:none}
+.cta-h{font-family:'Satoshi',sans-serif;font-size:clamp(38px,5vw,66px);font-weight:700;letter-spacing:-1.5px;line-height:1.06;margin-bottom:22px;position:relative}
+.cta-sub{font-size:16px;color:rgba(255,255,255,.45);max-width:450px;margin:0 auto 48px;line-height:1.74;position:relative}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
 
-        .p-news {
-            padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-        .p-news-top { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
-        .p-news-src { font-size: 7.5px; font-weight: 800; color: #fff; }
-        .p-news-time { font-size: 7px; color: var(--dim); }
-        .p-news-body { font-size: 7.5px; color: rgba(255,255,255,0.7); line-height: 1.45; margin-bottom: 6px; }
-        .p-tags { display: flex; gap: 4px; flex-wrap: wrap; }
-        .p-tag { background: rgba(0,212,100,0.1); border: 1px solid rgba(0,212,100,0.22); color: var(--green); padding: 2px 6px; border-radius: 4px; font-size: 7px; font-weight: 700; }
-        .p-tag.gray { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: var(--muted); }
+/* ─── FOOTER ─── */
+footer{padding:44px 0;border-top:1px solid rgba(255,255,255,.07)}
+.foot-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.foot-brand{display:flex;align-items:center;gap:14px}
+.foot-fm{display:flex;align-items:center;gap:8px}
+.foot-fm img{height:22px;filter:brightness(0) invert(1)}
+.foot-fm span{font-size:14px;font-weight:700}
+.foot-sep{width:1px;height:18px;background:rgba(255,255,255,.1)}
+.foot-nd{display:flex;align-items:center;gap:7px}
+.foot-nd-icon{width:24px;height:24px;background:#fff;border-radius:50%;padding:2px;overflow:hidden;display:flex}
+.foot-nd-icon img{width:100%;object-fit:contain}
+.foot-nd span{font-size:14px;font-weight:700;color:#0BC47A}
+.foot-legal{font-size:11.5px;color:rgba(255,255,255,.2);line-height:1.65;max-width:420px}
+.foot-links{display:flex;gap:22px}
+.foot-links a{font-size:13px;color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s}
+.foot-links a:hover{color:#fff}
 
-        .p-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 12px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .p-row-l { display: flex; align-items: center; gap: 7px; }
-        .p-ico { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6.5px; font-weight: 800; }
-        .p-name { font-size: 8.5px; font-weight: 700; }
-        .p-sym { font-size: 7px; color: var(--muted); }
-        .mini { width: 38px; height: 16px; }
-        .p-price { font-size: 8.5px; font-weight: 700; text-align: right; }
-        .p-chg { font-size: 7px; text-align: right; }
-        .up { color: var(--green); }
-        .dn { color: var(--red); }
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:#000}
+::-webkit-scrollbar-thumb{background:#1c1c1c;border-radius:2px}
 
-        /* ── TICKER ── */
-        .ticker-strip {
-            background: var(--bg1);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            overflow: hidden; padding: 10px 0;
-        }
-        .ticker-track { display: flex; animation: scroll 32s linear infinite; white-space: nowrap; }
-        @keyframes scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-        .t-item { display: inline-flex; align-items: center; gap: 7px; padding: 0 28px; font-size: 12.5px; font-weight: 600; }
-        .t-sym { color: var(--muted); }
-        .t-dot { color: var(--border); }
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  /* nav */
+  nav{padding:0 20px}
+  .nav-links{display:flex}
 
-        /* ── STATS ── */
-        .stats { padding: 80px 0; border-bottom: 1px solid var(--border); }
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(4,1fr);
-            gap: 1px; background: var(--border);
-            border: 1px solid var(--border); border-radius: 18px; overflow: hidden;
-        }
-        .stat-cell { background: var(--bg1); padding: 36px 28px; text-align: center; transition: background 0.2s; }
-        .stat-cell:hover { background: var(--bg2); }
-        .stat-n { font-size: 50px; font-weight: 900; letter-spacing: -2.5px; color: var(--green); line-height: 1; margin-bottom: 8px; }
-        .stat-l { font-size: 13px; color: var(--muted); font-weight: 500; }
+  /* hero */
+  .hero-inner{grid-template-columns:1fr;gap:0}
+  .hero-copy{padding:40px 0 32px}
+  .hero-phones{height:320px}
+  .h-phone-back{display:none}
+  .h-phone-front{position:relative;top:auto;right:auto;transform:none;display:flex;justify-content:center}
+  .h-phone-front .phone-body{width:200px}
 
-        /* ── SECTION HEADER ── */
-        .sec-label {
-            display: inline-flex; align-items: center; gap: 8px;
-            color: var(--green); font-size: 11px; font-weight: 700;
-            letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 14px;
-        }
-        .sec-label::before { content:''; width:18px; height:2px; background:var(--green); border-radius:2px; }
-        .sec-h2 { font-size: clamp(30px,4vw,52px); font-weight: 900; letter-spacing: -1.8px; line-height: 1.08; margin-bottom: 14px; }
-        .sec-sub { font-size: 15px; color: var(--muted); line-height: 1.72; max-width: 480px; margin-bottom: 56px; }
+  /* container */
+  .container{padding:0 20px}
 
-        /* ── FEATURES ── */
-        .features { padding: 100px 0; }
-        .feat-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; }
+  /* sections */
+  .feat{padding:72px 0}
+  .feat-inner,.feat-inner.rev{grid-template-columns:1fr;gap:40px}
+  .feat-inner.rev .feat-copy,.feat-inner.rev .feat-vis{order:unset}
+  .feat-copy{text-align:left}
+  .feat-vis{justify-content:center}
+  .feat-p{max-width:100%}
 
-        .feat-card {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 22px; padding: 36px;
-            position: relative; overflow: hidden;
-            transition: border-color 0.3s, transform 0.3s;
-        }
-        .feat-card::before {
-            content: ''; position: absolute; inset: 0;
-            background: radial-gradient(ellipse 60% 55% at var(--mx,50%) var(--my,50%), rgba(0,212,100,0.065), transparent 70%);
-            opacity: 0; transition: opacity 0.35s;
-        }
-        .feat-card:hover { border-color: var(--green-border); transform: translateY(-5px); }
-        .feat-card:hover::before { opacity: 1; }
+  /* partnership */
+  .partnership{padding:72px 0}
+  .part-logos{gap:20px;flex-wrap:wrap;justify-content:center}
+  .part-headline{font-size:22px}
 
-        .feat-icon {
-            width: 50px; height: 50px;
-            background: var(--green-dim); border: 1px solid var(--green-border);
-            border-radius: 14px; display: flex; align-items: center;
-            justify-content: center; font-size: 22px; margin-bottom: 22px;
-        }
-        .feat-h3 { font-size: 19px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 11px; }
-        .feat-p { font-size: 13.5px; color: var(--muted); line-height: 1.72; }
-        .feat-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
-        .ftag {
-            background: rgba(0,212,100,0.07); color: var(--green);
-            border: 1px solid rgba(0,212,100,0.18);
-            padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 600;
-        }
+  /* credits */
+  .credits-wrap{padding:48px 0}
+  .credits-card{grid-template-columns:1fr;padding:32px 24px;gap:28px}
+  .credits-cta{align-items:flex-start}
 
-        /* ── PRE-IPO ── */
-        .preipo { padding: 100px 0; }
-        .preipo-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  /* steps */
+  .steps-sec{padding:72px 0}
+  .steps-row{grid-template-columns:1fr;gap:32px}
+  .steps-row::before{display:none}
 
-        .co-list { display: flex; flex-direction: column; gap: 11px; }
-        .co-row {
-            display: flex; align-items: center; justify-content: space-between;
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 14px; padding: 15px 18px;
-            transition: all 0.25s; cursor: default;
-        }
-        .co-row:hover { border-color: var(--green-border); background: rgba(0,212,100,0.025); transform: translateX(5px); }
-        .co-l { display: flex; align-items: center; gap: 13px; }
-        .co-ico { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-        .co-name { font-size: 14px; font-weight: 700; }
-        .co-tick { font-size: 11px; color: var(--muted); margin-top: 1px; }
-        .co-price { font-size: 14px; font-weight: 700; text-align: right; }
-        .co-chg { font-size: 11px; color: var(--green); font-weight: 600; text-align: right; margin-top: 1px; }
+  /* cta */
+  .cta-sec{padding:80px 0}
+  .cta-btns{flex-direction:column;align-items:center}
 
-        /* ── AI SECTION ── */
-        .ai-sec {
-            padding: 100px 0;
-            background: var(--bg1);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-        .ai-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  /* footer */
+  .foot-inner{flex-direction:column;align-items:flex-start;gap:20px}
+  .foot-links{justify-content:flex-start;flex-wrap:wrap}
+}
 
-        .ai-card {
-            background: var(--bg2); border: 1px solid var(--border);
-            border-radius: 22px; padding: 26px; position: relative; overflow: hidden;
-        }
-        .ai-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0;
-            height: 2px; background: linear-gradient(90deg, var(--green), var(--novadax-teal));
-        }
-
-        .n-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 15px; margin-bottom: 11px; }
-        .n-item:last-child { margin-bottom: 0; }
-        .n-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
-        .n-src { font-size: 10.5px; font-weight: 800; color: var(--green); }
-        .n-time { font-size: 9.5px; color: var(--dim); }
-        .n-body { font-size: 12.5px; color: var(--muted); line-height: 1.56; }
-        .n-tags { display: flex; gap: 5px; margin-top: 9px; flex-wrap: wrap; }
-        .n-tag { background: rgba(0,212,100,0.07); border: 1px solid rgba(0,212,100,0.18); color: var(--green); padding: 2px 7px; border-radius: 5px; font-size: 10px; font-weight: 700; }
-
-        .ai-box {
-            background: rgba(0,212,100,0.04); border: 1px solid rgba(0,212,100,0.14);
-            border-radius: 10px; padding: 13px; margin-top: 11px;
-        }
-        .ai-box-lbl { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; color: var(--green); margin-bottom: 7px; }
-        .ai-box-txt { font-size: 12px; color: var(--muted); line-height: 1.6; }
-
-        .ai-points { display: flex; flex-direction: column; gap: 18px; }
-        .ai-pt { display: flex; align-items: flex-start; gap: 13px; }
-        .ai-pt-ico {
-            width: 32px; height: 32px; flex-shrink: 0;
-            background: var(--green-dim); border: 1px solid var(--green-border);
-            border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 14px;
-        }
-        .ai-pt-t { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-        .ai-pt-d { font-size: 13px; color: var(--muted); line-height: 1.62; }
-
-        /* ── NEWS SECTION ── */
-        .news-sec { padding: 100px 0; }
-        .news-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-        .news-feed-demo { display: flex; flex-direction: column; gap: 12px; }
-        .nf-card {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 18px;
-            transition: border-color 0.25s; cursor: default;
-        }
-        .nf-card:hover { border-color: var(--green-border); }
-        .nf-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
-        .nf-src { font-size: 11.5px; font-weight: 800; }
-        .nf-time { font-size: 10px; color: var(--dim); }
-        .nf-body { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 11px; }
-        .nf-tickers { display: flex; gap: 6px; flex-wrap: wrap; }
-        .nf-tick {
-            display: flex; align-items: center; gap: 5px;
-            background: var(--card); border: 1px solid var(--border);
-            padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 700;
-            transition: border-color 0.2s;
-        }
-        .nf-tick:hover { border-color: var(--green-border); }
-        .nf-tick .up { font-size: 10px; }
-
-        /* ── STEPS ── */
-        .steps-sec { padding: 100px 0; background: var(--bg1); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-        .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 50px; margin-top: 60px; position: relative; }
-        .steps-grid::before {
-            content: '';
-            position: absolute; top: 28px; left: calc(16.66% + 16px); right: calc(16.66% + 16px);
-            height: 1px; background: linear-gradient(90deg, var(--green-border), rgba(0,212,100,0.08));
-        }
-        .step-n { font-size: 70px; font-weight: 900; letter-spacing: -3px; line-height: 1; color: rgba(0,212,100,0.1); margin-bottom: 20px; }
-        .step-h3 { font-size: 19px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 11px; }
-        .step-p { font-size: 13.5px; color: var(--muted); line-height: 1.7; }
-
-        /* ── CTA ── */
-        .cta-sec {
-            padding: 120px 0; text-align: center;
-            position: relative; overflow: hidden;
-            background: var(--bg1);
-        }
-        .cta-sec::before {
-            content: '';
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%,-50%);
-            width: 700px; height: 500px;
-            background: radial-gradient(ellipse, rgba(0,212,100,0.075), transparent 65%);
-            pointer-events: none;
-        }
-        .cta-h2 { font-size: clamp(38px,5.5vw,70px); font-weight: 900; letter-spacing: -2.5px; margin-bottom: 20px; line-height: 1.04; position: relative; }
-        .cta-h2 span { color: var(--green); }
-        .cta-p { font-size: 16px; color: var(--muted); max-width: 480px; margin: 0 auto 44px; line-height: 1.72; position: relative; }
-        .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
-
-        /* ── FOOTER ── */
-        footer { padding: 44px 0; border-top: 1px solid var(--border); }
-        .foot-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-        .foot-brand { display: flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 800; }
-        .foot-legal { font-size: 11.5px; color: var(--dim); line-height: 1.65; max-width: 440px; }
-        .foot-links { display: flex; gap: 22px; }
-        .foot-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-        .foot-links a:hover { color: #fff; }
-
-        /* ── SCROLLBAR ── */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: #1e1e1e; border-radius: 3px; }
-
-        /* ── REVEAL ── */
-        .r { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
-        .r.v { opacity: 1; transform: translateY(0); }
-        .d1 { transition-delay: 0.1s; }
-        .d2 { transition-delay: 0.2s; }
-        .d3 { transition-delay: 0.3s; }
-        .d4 { transition-delay: 0.4s; }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 900px) {
-            nav { padding: 0 20px; }
-            .nav-links { display: none; }
-            .hero-inner { grid-template-columns: 1fr; }
-            .hero-visual { display: none; }
-            .hero-content { padding: 40px 0 60px; }
-            .stats-grid { grid-template-columns: repeat(2,1fr); }
-            .feat-grid { grid-template-columns: 1fr; }
-            .preipo-inner, .ai-inner, .news-inner { grid-template-columns: 1fr; gap: 40px; }
-            .steps-grid { grid-template-columns: 1fr; gap: 32px; }
-            .steps-grid::before { display: none; }
-            .foot-inner { flex-direction: column; text-align: center; }
-            .foot-links { flex-wrap: wrap; justify-content: center; }
-        }
-    </style>
+@media(max-width:480px){
+  .hero-h1{font-size:36px;letter-spacing:-1px}
+  .feat-h2{font-size:28px}
+  .cta-h{font-size:32px;letter-spacing:-0.8px}
+  .steps-hd h2{font-size:28px}
+  .phone-body{width:220px!important}
+  .btn-green,.btn-ghost{width:100%;justify-content:center}
+  .hero-btns{flex-direction:column}
+  .credits-badge{font-size:9px}
+  nav{height:56px}
+  .nav-fm span{display:none}
+  .nav-nd span{display:none}
+}
+</style>
 </head>
 <body>
 
-<!-- ──────────── NAV ──────────── -->
+<!-- ────────── NAV ────────── -->
 <nav id="nav">
-    <div class="nav-brand">
-        <div class="nav-fp">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-                <path d="M13 1.5L23.5 6.5V13C23.5 18.8 18.8 23.8 13 25.5C7.2 23.8 2.5 18.8 2.5 13V6.5L13 1.5Z" fill="rgba(0,212,100,0.12)" stroke="#00D464" stroke-width="1.4"/>
-                <path d="M8.5 15.5L9.5 11.5H16.5L17.5 15.5H8.5Z" fill="#00D464"/>
-                <path d="M10.5 11.5V9.5C10.5 8.4 11.4 7.5 12.5 7.5H13.5C14.6 7.5 15.5 8.4 15.5 9.5V11.5" stroke="#00D464" stroke-width="1.4" stroke-linecap="round"/>
-            </svg>
-            Freeport
-        </div>
-        <span class="nav-x">×</span>
-        <div class="nav-nd">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-                <circle cx="13" cy="13" r="11" fill="#003566"/>
-                <ellipse cx="15" cy="13" rx="8.5" ry="5" transform="rotate(-30 15 13)" fill="none" stroke="#0BC47A" stroke-width="2.2"/>
-                <circle cx="13" cy="13" r="2.8" fill="#0BC47A"/>
-            </svg>
-            NovaDAX
-        </div>
-    </div>
-    <ul class="nav-links">
-        <li><a href="#features">Recursos</a></li>
-        <li><a href="#preipo">Pré-IPO</a></li>
-        <li><a href="#ai">IA Analista</a></li>
-        <li><a href="#steps" class="nav-cta">Começar Agora</a></li>
-    </ul>
+  <div class="nav-brand">
+    <a href="#" class="nav-fm">
+      <img src="New Freeport Markets logo.png" alt="Freeport">
+      <span>Freeport Markets</span>
+    </a>
+    <div class="nav-divider"></div>
+    <a href="#" class="nav-nd">
+      <div class="nav-nd-icon"><img src="Novologo.png" alt="NovaDAX"></div>
+      <span>NovaDAX</span>
+    </a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#credits" class="nav-cta">Resgatar Créditos</a></li>
+  </ul>
 </nav>
 
-<!-- ──────────── HERO ──────────── -->
+<!-- ────────── HERO ────────── -->
 <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="container">
-        <div class="hero-inner">
-            <div class="hero-content">
-                <div class="badge"><span class="badge-dot"></span> Parceria Exclusiva</div>
-                <h1 class="hero-h1">
-                    Invista nos EUA.<br>
-                    <span>Diretamente<br>da NovaDAX.</span>
-                </h1>
-                <p class="hero-sub">
-                    Acesse centenas de ações americanas, empresas pré-IPO exclusivas e análise de IA em tempo real — tudo integrado à sua conta NovaDAX.
-                </p>
-                <div class="hero-btns">
-                    <a href="#steps" class="btn-g">
-                        Começar Agora
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </a>
-                    <a href="#features" class="btn-o">Ver Recursos</a>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="phone-wrap">
-                    <div class="phone">
-                        <div class="p-notch"></div>
-                        <div class="p-status"><span>10:13</span><span>83%</span></div>
-                        <div class="p-topbar">
-                            <span style="font-size:8px;font-weight:800;color:var(--green)">Trending</span>
-                            <span style="font-size:8px;background:var(--green);color:#000;padding:2px 8px;border-radius:6px;font-weight:800">+ Depositar</span>
-                        </div>
-                        <div class="p-tabs">
-                            <span class="p-tab on">Trending</span>
-                            <span class="p-tab">AI &amp; Tech</span>
-                            <span class="p-tab">Fed &amp; Macro</span>
-                        </div>
-                        <div class="p-news">
-                            <div class="p-news-top">
-                                <span class="p-news-src">@unusual_whales</span>
-                                <span class="p-news-time">9m ago</span>
-                            </div>
-                            <p class="p-news-body">Microsoft está construindo um super app combinando codificação, chat e ferramentas Copilot de IA, por FORTUNE.</p>
-                            <div class="p-tags">
-                                <span class="p-tag">MSFT ↑</span>
-                                <span class="p-tag gray">NASDAQ ↑</span>
-                                <span class="p-tag gray">GOOGL ↑</span>
-                            </div>
-                        </div>
-                        <div class="p-row">
-                            <div class="p-row-l">
-                                <div class="p-ico" style="background:#0d6efd22;color:#4d9fff">IBM</div>
-                                <div><div class="p-name">IBM</div><div class="p-sym">10x</div></div>
-                            </div>
-                            <svg class="mini" viewBox="0 0 38 16"><polyline points="0,13 7,9 15,11 22,5 30,7 38,3" fill="none" stroke="#00D464" stroke-width="1.5"/></svg>
-                            <div><div class="p-price">$189.45</div><div class="p-chg up">+2.1%</div></div>
-                        </div>
-                        <div class="p-row">
-                            <div class="p-row-l">
-                                <div class="p-ico" style="background:#76b90022;color:#76b900">NVDA</div>
-                                <div><div class="p-name">Nvidia</div><div class="p-sym">20x</div></div>
-                            </div>
-                            <svg class="mini" viewBox="0 0 38 16"><polyline points="0,3 7,7 15,5 22,10 30,13 38,11" fill="none" stroke="#FF4444" stroke-width="1.5"/></svg>
-                            <div><div class="p-price">$215.48</div><div class="p-chg dn">-0.54%</div></div>
-                        </div>
-                        <div class="p-row">
-                            <div class="p-row-l">
-                                <div class="p-ico" style="background:#4285f422;color:#4285f4">MSFT</div>
-                                <div><div class="p-name">Microsoft</div><div class="p-sym">10x</div></div>
-                            </div>
-                            <svg class="mini" viewBox="0 0 38 16"><polyline points="0,12 7,9 15,10 22,5 30,7 38,3" fill="none" stroke="#00D464" stroke-width="1.5"/></svg>
-                            <div><div class="p-price">$454.68</div><div class="p-chg up">+2.43%</div></div>
-                        </div>
-                        <div class="p-row">
-                            <div class="p-row-l">
-                                <div class="p-ico" style="background:#ff990022;color:#ff9900">ARM</div>
-                                <div><div class="p-name">Arm Holdings</div><div class="p-sym">10x</div></div>
-                            </div>
-                            <svg class="mini" viewBox="0 0 38 16"><polyline points="0,14 7,11 15,8 22,5 30,6 38,2" fill="none" stroke="#00D464" stroke-width="1.5"/></svg>
-                            <div><div class="p-price">$366.66</div><div class="p-chg up">+3.14%</div></div>
-                        </div>
-                    </div>
-                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:280px;height:280px;background:radial-gradient(circle,rgba(0,212,100,0.07),transparent 70%);z-index:-1;pointer-events:none"></div>
-                </div>
-            </div>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-copy" id="hc">
+        <div class="eyebrow"><span class="eyebrow-dot"></span>Parceria Exclusiva</div>
+        <h1 class="hero-h1">Do Brasil<br>para <span class="gt">Wall Street.</span></h1>
+        <p class="hero-sub">Ações americanas, pré-IPOs exclusivos e análise de IA em tempo real. Integrado diretamente à sua conta NovaDAX.</p>
+        <div class="hero-btns">
+          <a href="#credits" class="btn-green">
+            Resgatar Créditos
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#news" class="btn-ghost">Ver Recursos</a>
         </div>
+      </div>
+      <div class="hero-phones">
+        <div class="h-phone-back">
+          <div class="phone-shell">
+            <div class="phone-body">
+              <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
+              <img class="phone-screen" src="USstocks.png" alt="US Stocks">
+              <div class="phone-home-bar"></div>
+            </div>
+            <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
+          </div>
+        </div>
+        <div class="h-phone-front float">
+          <div class="phone-shell">
+            <div class="phone-glow"></div>
+            <div class="phone-body">
+              <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
+              <img class="phone-screen" src="smartanalyst.png" alt="IA Analista">
+              <div class="phone-home-bar"></div>
+            </div>
+            <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- ──────────── TICKER ──────────── -->
-<div class="ticker-strip">
-    <div class="ticker-track">
-        <span class="t-item"><span class="t-sym">MSFT</span><span>$454.68</span><span class="up">+2.43%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">NVDA</span><span>$215.48</span><span class="dn">-0.54%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">SPACEX</span><span>$201.38</span><span class="up">+3.80%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">OPENAI</span><span>$1,525.86</span><span class="up">+0.10%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">ARM</span><span>$366.66</span><span class="up">+3.14%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">GOOGL</span><span>$382.68</span><span class="dn">-0.08%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">ANTHRP</span><span>$968.27</span><span class="up">+0.82%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">MU</span><span>$974.28</span><span class="up">+0.95%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">ORCL</span><span>$227.22</span><span class="up">+1.87%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">ANDURIL</span><span>$140.78</span><span class="up">+0.42%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">SPCX</span><span>$201.38</span><span class="up">+3.80%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">IBM</span><span>$189.45</span><span class="up">+2.10%</span></span><span class="t-dot">·</span>
-        <!-- duplicate for seamless loop -->
-        <span class="t-item"><span class="t-sym">MSFT</span><span>$454.68</span><span class="up">+2.43%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">NVDA</span><span>$215.48</span><span class="dn">-0.54%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">SPACEX</span><span>$201.38</span><span class="up">+3.80%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">OPENAI</span><span>$1,525.86</span><span class="up">+0.10%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">ARM</span><span>$366.66</span><span class="up">+3.14%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">GOOGL</span><span>$382.68</span><span class="dn">-0.08%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">ANTHRP</span><span>$968.27</span><span class="up">+0.82%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">MU</span><span>$974.28</span><span class="up">+0.95%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">ORCL</span><span>$227.22</span><span class="up">+1.87%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">ANDURIL</span><span>$140.78</span><span class="up">+0.42%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">SPCX</span><span>$201.38</span><span class="up">+3.80%</span></span><span class="t-dot">·</span>
-        <span class="t-item"><span class="t-sym">IBM</span><span>$189.45</span><span class="up">+2.10%</span></span><span class="t-dot">·</span>
-    </div>
-</div>
 
-<!-- ──────────── STATS ──────────── -->
-<section class="stats">
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-cell r">
-                <div class="stat-n" id="s1">0</div>
-                <div class="stat-l">Ações Americanas Disponíveis</div>
-            </div>
-            <div class="stat-cell r d1">
-                <div class="stat-n" id="s2">0</div>
-                <div class="stat-l">Empresas Pré-IPO Exclusivas</div>
-            </div>
-            <div class="stat-cell r d2">
-                <div class="stat-n" style="font-size:38px">Tempo<br>Real</div>
-                <div class="stat-l">Feed de Notícias ao Vivo</div>
-            </div>
-            <div class="stat-cell r d3">
-                <div class="stat-n" style="font-size:38px">IA em<br>Todo Ativo</div>
-                <div class="stat-l">Análise Inteligente Instantânea</div>
-            </div>
-        </div>
+<!-- ────────── PARTNERSHIP ────────── -->
+<section class="partnership" id="parceria">
+  <div class="container" style="position:relative;z-index:1">
+    <p class="part-tag">A Parceria Oficial</p>
+    <div class="part-logos">
+      <div class="part-logo-wrap">
+        <div class="part-fm-icon"><img src="New Freeport Markets logo.png" alt="Freeport Markets"></div>
+        <span class="part-logo-name">Freeport Markets</span>
+      </div>
+      <div class="part-x">×</div>
+      <div class="part-logo-wrap">
+        <div class="part-nd-icon"><img src="Novologo.png" alt="NovaDAX"></div>
+        <span class="part-logo-name" style="color:#0BC47A">NovaDAX</span>
+      </div>
     </div>
+    <h2 class="part-headline">A plataforma de trading americana número 1 se une à maior exchange do Brasil.</h2>
+    <p class="part-sub">Juntos, a Freeport Markets e a NovaDAX abrem o acesso ao mercado americano para qualquer brasileiro. Sem burocracia, sem fronteiras.</p>
+  </div>
 </section>
 
-<!-- ──────────── FEATURES ──────────── -->
-<section class="features" id="features">
-    <div class="container">
-        <div class="r">
-            <div class="sec-label">Recursos</div>
-            <h2 class="sec-h2">Por que escolher<br>a Freeport?</h2>
-            <p class="sec-sub">Uma plataforma completa para acessar os mercados mais dinâmicos do mundo, com tecnologia de ponta.</p>
+<!-- ────────── CREDITS PROMO ────────── -->
+<section class="credits-wrap" id="credits">
+  <div class="container">
+    <div class="credits-card">
+      <div>
+        <div class="credits-badge">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1l1.2 2.5L9 4l-2 1.9.5 2.6L5 7.2 2.5 8.5 3 5.9 1 4l2.8-.5z" fill="#00D45A"/></svg>
+          Oferta Exclusiva NovaDAX
         </div>
-        <div class="feat-grid">
-            <div class="feat-card r">
-                <div class="feat-icon">🇺🇸</div>
-                <h3 class="feat-h3">Ações Americanas</h3>
-                <p class="feat-p">Acesse centenas das maiores empresas da bolsa americana — Microsoft, Nvidia, Apple, Amazon, Oracle e muito mais — com alavancagem de até 20x diretamente do Brasil.</p>
-                <div class="feat-tags">
-                    <span class="ftag">NYSE</span>
-                    <span class="ftag">NASDAQ</span>
-                    <span class="ftag">S&amp;P 500</span>
-                    <span class="ftag">Até 20x Leverage</span>
-                </div>
-            </div>
-            <div class="feat-card r d1">
-                <div class="feat-icon">🚀</div>
-                <h3 class="feat-h3">Ações Pré-IPO</h3>
-                <p class="feat-p">Invista em empresas privadas antes da abertura de capital. SpaceX, OpenAI, Anthropic, Anduril, Neuralink — acesso exclusivo ao mercado privado americano que antes só existia para os grandes fundos.</p>
-                <div class="feat-tags">
-                    <span class="ftag">SpaceX</span>
-                    <span class="ftag">OpenAI</span>
-                    <span class="ftag">Anthropic</span>
-                    <span class="ftag">Neuralink</span>
-                </div>
-            </div>
-            <div class="feat-card r d2">
-                <div class="feat-icon">🤖</div>
-                <h3 class="feat-h3">Analista de IA</h3>
-                <p class="feat-p">Cada ativo e evento de mercado é analisado em tempo real por inteligência artificial. Receba insights instantâneos contextualizados para tomar decisões mais inteligentes, sem perder tempo.</p>
-                <div class="feat-tags">
-                    <span class="ftag">Análise Instantânea</span>
-                    <span class="ftag">Contexto de Mercado</span>
-                    <span class="ftag">Impacto no Ativo</span>
-                </div>
-            </div>
-            <div class="feat-card r d3">
-                <div class="feat-icon">📡</div>
-                <h3 class="feat-h3">Feed de Notícias em Tempo Real</h3>
-                <p class="feat-p">Fique por dentro de tudo que move o mercado. Notícias filtradas por ativo, setor ou tema — diretamente dos maiores analistas e fontes financeiras do mundo, organizadas para você agir rápido.</p>
-                <div class="feat-tags">
-                    <span class="ftag">Tempo Real</span>
-                    <span class="ftag">Por Ativo</span>
-                    <span class="ftag">Por Setor</span>
-                    <span class="ftag">Fontes Premium</span>
-                </div>
-            </div>
-        </div>
+        <h3 class="credits-h">Cadastre-se pela NovaDAX e<br>ganhe créditos na Freeport Markets.</h3>
+        <p class="credits-p">Use o link exclusivo da parceria NovaDAX e receba créditos para começar a operar ações americanas sem custo inicial. Oferta válida para novos usuários da Freeport.</p>
+      </div>
+      <div class="credits-cta">
+        <a href="#" class="btn-credits">
+          Resgatar Créditos
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <span class="credits-note">Via link exclusivo NovaDAX</span>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- ──────────── PRE-IPO ──────────── -->
-<section class="preipo" id="preipo" style="background:var(--bg1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-    <div class="container">
-        <div class="preipo-inner">
-            <div class="r">
-                <div class="sec-label">Exclusivo</div>
-                <h2 class="sec-h2">Invista antes<br>da abertura<br><span style="color:var(--green)">de capital.</span></h2>
-                <p class="sec-sub" style="margin-bottom:0">Pela primeira vez, brasileiros têm acesso às empresas mais inovadoras do mundo antes de chegarem à bolsa. Uma vantagem que poucos investidores têm no mundo inteiro.</p>
-            </div>
-            <div class="co-list r d1">
-                <div class="co-row">
-                    <div class="co-l">
-                        <div class="co-ico" style="background:#1a1a2e">🚀</div>
-                        <div><div class="co-name">SpaceX</div><div class="co-tick">SPACEX · Pré-IPO · 5x</div></div>
-                    </div>
-                    <div><div class="co-price">$201.38</div><div class="co-chg">+3.80%</div></div>
-                </div>
-                <div class="co-row">
-                    <div class="co-l">
-                        <div class="co-ico" style="background:#1a1010">🤖</div>
-                        <div><div class="co-name">OpenAI</div><div class="co-tick">OPENAI · Pré-IPO</div></div>
-                    </div>
-                    <div><div class="co-price">$1,525.86</div><div class="co-chg">+0.10%</div></div>
-                </div>
-                <div class="co-row">
-                    <div class="co-l">
-                        <div class="co-ico" style="background:#10101a">🧠</div>
-                        <div><div class="co-name">Anthropic</div><div class="co-tick">ANTHRP · Pré-IPO</div></div>
-                    </div>
-                    <div><div class="co-price">$968.27</div><div class="co-chg">+0.82%</div></div>
-                </div>
-                <div class="co-row">
-                    <div class="co-l">
-                        <div class="co-ico" style="background:#1a1020">⚡</div>
-                        <div><div class="co-name">Anduril</div><div class="co-tick">ANDURIL · Pré-IPO</div></div>
-                    </div>
-                    <div><div class="co-price">$140.78</div><div class="co-chg">+0.42%</div></div>
-                </div>
-                <div class="co-row">
-                    <div class="co-l">
-                        <div class="co-ico" style="background:#0a1a0a">📊</div>
-                        <div><div class="co-name">Kalshi</div><div class="co-tick">KALSHI · Pré-IPO</div></div>
-                    </div>
-                    <div><div class="co-price">$507.74</div><div class="co-chg">+6.58%</div></div>
-                </div>
-                <div class="co-row">
-                    <div class="co-l">
-                        <div class="co-ico" style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.08)">🧬</div>
-                        <div><div class="co-name">Neuralink</div><div class="co-tick">NEURALINK · Pré-IPO</div></div>
-                    </div>
-                    <div><div class="co-price" style="color:var(--muted)">Em breve</div><div class="co-chg" style="color:var(--dim)">--</div></div>
-                </div>
-            </div>
+<!-- ────────── FEATURE: NEWS FEED ────────── -->
+<section class="feat dark" id="news">
+  <div class="feat-glow l"></div>
+  <div class="container">
+    <div class="feat-inner">
+      <div class="feat-copy">
+        <div class="lbl">Feed em Tempo Real</div>
+        <h2 class="feat-h2">Fique à frente<br>do <span class="gt">mercado.</span></h2>
+        <p class="feat-p">As notícias que movem os mercados, filtradas por ativo, setor e tema, chegam em tempo real direto das fontes mais influentes do mundo financeiro.</p>
+        <ul class="feat-list">
+          <li>Trending por relevância de mercado em tempo real</li>
+          <li>Filtros por ativo, setor e categoria</li>
+          <li>Fontes: @zerohedge, @osint613, @unusual_whales e mais</li>
+          <li>Alertas instantâneos para os ativos que você segue</li>
+        </ul>
+      </div>
+      <div class="feat-vis">
+        <div class="phone-shell" style="transform:rotate(4deg)">
+          <div class="phone-glow"></div>
+          <div class="phone-body">
+            <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
+            <img class="phone-screen" src="Realtimenewsfeed.png" alt="Feed de Notícias">
+            <div class="phone-home-bar"></div>
+          </div>
+          <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- ──────────── AI SECTION ──────────── -->
-<section class="ai-sec" id="ai">
-    <div class="container">
-        <div class="ai-inner">
-            <div class="ai-card r">
-                <div class="n-item">
-                    <div class="n-top">
-                        <span class="n-src">@unusual_whales · 4M seguidores</span>
-                        <span class="n-time">9 min atrás</span>
-                    </div>
-                    <p class="n-body">A Microsoft está construindo um super app que combina codificação, chat e outras ferramentas Copilot de IA, de acordo com a FORTUNE.</p>
-                    <div class="n-tags">
-                        <span class="n-tag">MSFT ↑</span>
-                        <span class="n-tag">NASDAQ ↑</span>
-                        <span class="n-tag">GOOGL ↑</span>
-                    </div>
-                    <div class="ai-box">
-                        <div class="ai-box-lbl"><span>💡</span> Análise de IA</div>
-                        <p class="ai-box-txt">Relatório indica que a Microsoft está construindo um "super app" unindo codificação, chat e ferramentas Copilot (Fortune). Se simplificar fluxos e aumentar adesão ao Copilot, pode impulsionar monetização do Azure — mas detalhes e cronograma ainda são vagos.</p>
-                    </div>
-                </div>
-                <div class="n-item">
-                    <div class="n-top">
-                        <span class="n-src">@zerohedge · 2.9M seguidores</span>
-                        <span class="n-time">57 min atrás</span>
-                    </div>
-                    <p class="n-body">IBM dispara com clipe de Trump ressurgido e rating de Compra do Barclays enquanto Rally de Momentum acelera nos mercados.</p>
-                    <div class="n-tags">
-                        <span class="n-tag">IBM ↑</span>
-                        <span class="n-tag">MSFT ↑</span>
-                        <span class="n-tag">GOOGL ↑</span>
-                    </div>
-                </div>
-            </div>
-            <div class="r d1">
-                <div class="sec-label">IA Analista</div>
-                <h2 class="sec-h2">Inteligência<br>em cada<br><span style="color:var(--green)">notícia.</span></h2>
-                <p class="sec-sub" style="margin-bottom:28px">Cada evento de mercado é analisado automaticamente pela IA da Freeport. Entenda em segundos como uma notícia impacta os ativos que você acompanha.</p>
-                <div class="ai-points">
-                    <div class="ai-pt">
-                        <div class="ai-pt-ico">⚡</div>
-                        <div><div class="ai-pt-t">Análise Instantânea</div><div class="ai-pt-d">A IA processa cada notícia em milissegundos e gera um resumo contextualizado para você agir rápido.</div></div>
-                    </div>
-                    <div class="ai-pt">
-                        <div class="ai-pt-ico">🎯</div>
-                        <div><div class="ai-pt-t">Impacto por Ativo</div><div class="ai-pt-d">Cada notícia é vinculada aos ativos relevantes automaticamente, com análise clara de impacto positivo ou negativo.</div></div>
-                    </div>
-                    <div class="ai-pt">
-                        <div class="ai-pt-ico">📊</div>
-                        <div><div class="ai-pt-t">Contexto de Mercado</div><div class="ai-pt-d">Entenda o panorama macro, setorial e de curto prazo por trás de cada movimento de preço.</div></div>
-                    </div>
-                </div>
-            </div>
+<!-- ────────── FEATURE: US STOCKS ────────── -->
+<section class="feat" id="stocks">
+  <div class="feat-glow r"></div>
+  <div class="container">
+    <div class="feat-inner rev">
+      <div class="feat-copy">
+        <div class="lbl">Ações Americanas</div>
+        <h2 class="feat-h2">As maiores empresas<br>do <span class="gt">mundo.</span></h2>
+        <p class="feat-p">Acesso ao mercado americano com alavancagem de até 20x. De Nvidia a Microsoft, de Arm Holdings ao SpaceX, tudo em um único app.</p>
+        <ul class="feat-list">
+          <li>Acesso ao mercado americano NYSE e NASDAQ</li>
+          <li>Alavancagem de até 20x em ações selecionadas</li>
+          <li>Gráficos, preços e dados em tempo real</li>
+          <li>Filtros por volume, variação 24h, setor e mais</li>
+        </ul>
+      </div>
+      <div class="feat-vis">
+        <div class="phone-shell" style="transform:rotate(-4deg)">
+          <div class="phone-glow"></div>
+          <div class="phone-body">
+            <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
+            <img class="phone-screen" src="USstocks.png" alt="Ações Americanas">
+            <div class="phone-home-bar"></div>
+          </div>
+          <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- ──────────── NEWS FEED ──────────── -->
-<section class="news-sec" id="noticias">
-    <div class="container">
-        <div class="news-inner">
-            <div class="r">
-                <div class="sec-label">Feed ao Vivo</div>
-                <h2 class="sec-h2">O mercado<br>na palma<br><span style="color:var(--green)">da sua mão.</span></h2>
-                <p class="sec-sub" style="margin-bottom:0">Receba notícias filtradas por ativo, setor ou tema — organizadas por relevância, com os tickers certos em destaque. Nada de ruído, só o que importa para o seu portfólio.</p>
-            </div>
-            <div class="news-feed-demo r d1">
-                <div class="nf-card">
-                    <div class="nf-head">
-                        <span class="nf-src" style="color:var(--green)">@Osint613</span>
-                        <span class="nf-time">3 min atrás · 1.4M</span>
-                    </div>
-                    <p class="nf-body">O IDF afirma que a tomada de Beaufort Ridge tem grande significância operacional, descrevendo-a como um ponto estratégico chave no conflito.</p>
-                    <div class="nf-tickers">
-                        <div class="nf-tick"><span>Oil</span><span class="up">↑</span></div>
-                        <div class="nf-tick"><span>Defense</span><span class="up">↑</span></div>
-                        <div class="nf-tick"><span>Lockheed</span><span class="up">↑</span></div>
-                        <div class="nf-tick"><span>RTX</span><span class="up">↑</span></div>
-                    </div>
-                </div>
-                <div class="nf-card">
-                    <div class="nf-head">
-                        <span class="nf-src" style="color:#a78bfa">@zerohedge</span>
-                        <span class="nf-time">57 min atrás · 2.9M</span>
-                    </div>
-                    <p class="nf-body">IBM dispara com clipe de Trump ressurgido e rating de Compra do Barclays enquanto Rally de Momentum Acelera nos mercados globais.</p>
-                    <div class="nf-tickers">
-                        <div class="nf-tick"><span>IBM</span><span class="up">↑</span></div>
-                        <div class="nf-tick"><span>MSFT</span><span class="up">↑</span></div>
-                        <div class="nf-tick"><span>Alphabet</span><span class="up">↑</span></div>
-                    </div>
-                </div>
-                <div class="nf-card">
-                    <div class="nf-head">
-                        <span class="nf-src" style="color:#60a5fa">@unusual_whales</span>
-                        <span class="nf-time">9 min atrás · 4M</span>
-                    </div>
-                    <p class="nf-body">BNB captura ampla demanda de risco em cripto enquanto volumes de negociação no ecossistema Binance permanecem elevados com macro melhorando.</p>
-                    <div class="nf-tickers">
-                        <div class="nf-tick"><span>BNB</span><span class="up">↑ +10.06%</span></div>
-                        <div class="nf-tick"><span>Crypto</span><span class="up">↑</span></div>
-                    </div>
-                </div>
-            </div>
+<!-- ────────── FEATURE: PRE-IPO ────────── -->
+<section class="feat dark" id="preipo">
+  <div class="feat-glow l" style="background:radial-gradient(circle,rgba(11,196,122,.058),transparent 58%)"></div>
+  <div class="container">
+    <div class="feat-inner">
+      <div class="feat-copy">
+        <div class="lbl">Pré-IPO Exclusivo</div>
+        <h2 class="feat-h2">O retorno<br>real acontece<br><span class="gt">antes do IPO.</span></h2>
+        <p class="feat-p">Por décadas, os maiores ganhos do mercado ficaram restritos a fundos de capital de risco e investidores institucionais. Agora, pela primeira vez, você pode entrar antes de todo mundo.</p>
+        <p class="feat-p" style="margin-top:-12px">SpaceX foi de zero a mais de US$ 350 bilhões no mercado privado. Sem que nenhum investidor comum tivesse acesso. Isso acabou.</p>
+        <ul class="feat-list">
+          <li>Invista antes da abertura de capital na bolsa</li>
+          <li>Acesso a SpaceX, OpenAI, Anthropic, Anduril e mais</li>
+          <li>Potencial de valorização que IPOs públicos não oferecem</li>
+          <li>Exclusivo para usuários via parceria NovaDAX</li>
+        </ul>
+        <div class="preipo-stat-row">
+          <div class="preipo-stat">
+            <div class="preipo-stat-n">$350B+</div>
+            <div class="preipo-stat-l">Valuation privado do SpaceX antes do IPO</div>
+          </div>
+          <div class="preipo-stat">
+            <div class="preipo-stat-n">$157B</div>
+            <div class="preipo-stat-l">Valuation da OpenAI no mercado privado</div>
+          </div>
         </div>
+      </div>
+      <div class="feat-vis">
+        <div class="phone-shell" style="transform:rotate(4deg)">
+          <div class="phone-glow"></div>
+          <div class="phone-body">
+            <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
+            <img class="phone-screen" src="preipo.png" alt="Ações Pré-IPO">
+            <div class="phone-home-bar"></div>
+          </div>
+          <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- ──────────── STEPS ──────────── -->
+<!-- ────────── FEATURE: AI ANALYST ────────── -->
+<section class="feat" id="ai">
+  <div class="feat-glow r"></div>
+  <div class="container">
+    <div class="feat-inner rev">
+      <div class="feat-copy">
+        <div class="lbl">IA Analista</div>
+        <h2 class="feat-h2">Inteligência em<br>cada <span class="gt">decisão.</span></h2>
+        <p class="feat-p">Cada notícia e evento de mercado é processado automaticamente pela IA da Freeport. Contexto, impacto e análise entregues em segundos, sem precisar decifrar nada.</p>
+        <ul class="feat-list">
+          <li>Análise automática de cada evento de mercado</li>
+          <li>Impacto por ativo identificado em tempo real</li>
+          <li>Contexto macro e setorial incluído</li>
+          <li>Gráficos de preço integrados à análise</li>
+        </ul>
+      </div>
+      <div class="feat-vis">
+        <div class="phone-shell" style="transform:rotate(-4deg)">
+          <div class="phone-glow"></div>
+          <div class="phone-body">
+            <div class="phone-notch"><div class="phone-notch-bar"></div><div class="phone-notch-dot"></div></div>
+            <img class="phone-screen" src="smartanalyst.png" alt="Analista de IA">
+            <div class="phone-home-bar"></div>
+          </div>
+          <div class="pb-power"></div><div class="pb-silent"></div><div class="pb-volup"></div><div class="pb-voldn"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ────────── STEPS ────────── -->
 <section class="steps-sec" id="steps">
-    <div class="container">
-        <div class="r" style="text-align:center">
-            <div class="sec-label" style="justify-content:center">Como Começar</div>
-            <h2 class="sec-h2" style="text-align:center">Simples assim.</h2>
-            <p class="sec-sub" style="text-align:center;max-width:440px;margin:14px auto 0">Em três passos você já está investindo nos melhores mercados do planeta.</p>
-        </div>
-        <div class="steps-grid">
-            <div class="r d1">
-                <div class="step-n">01</div>
-                <h3 class="step-h3">Crie sua conta<br>na Freeport</h3>
-                <p class="step-p">Baixe o app da Freeport Markets e crie sua conta gratuitamente. Processo rápido, menos de 5 minutos.</p>
-            </div>
-            <div class="r d2">
-                <div class="step-n">02</div>
-                <h3 class="step-h3">Conecte sua<br>conta NovaDAX</h3>
-                <p class="step-p">Vincule sua conta NovaDAX para facilitar depósitos e saques. Integração segura e instantânea entre as plataformas.</p>
-            </div>
-            <div class="r d3">
-                <div class="step-n">03</div>
-                <h3 class="step-h3">Comece<br>a investir</h3>
-                <p class="step-p">Explore ações americanas, pré-IPOs exclusivos e use a análise de IA para tomar as melhores decisões.</p>
-            </div>
-        </div>
+  <div class="container">
+    <div class="steps-hd">
+      <div class="lbl" style="justify-content:center">Como Começar</div>
+      <h2>Três passos.<br>Sem complicação.</h2>
+      <p>Da sua conta NovaDAX ao mercado americano em minutos.</p>
     </div>
+    <div class="steps-row">
+      <div>
+        <div class="step-num">01</div>
+        <h3 class="step-h">Crie sua conta na Freeport</h3>
+        <p class="step-p">Baixe o app da Freeport Markets e crie sua conta em menos de 5 minutos.</p>
+      </div>
+      <div>
+        <div class="step-num">02</div>
+        <h3 class="step-h">Conecte sua conta NovaDAX</h3>
+        <p class="step-p">Vincule sua conta NovaDAX para depósitos, saques e para resgatar seus créditos exclusivos.</p>
+      </div>
+      <div>
+        <div class="step-num">03</div>
+        <h3 class="step-h">Comece a investir</h3>
+        <p class="step-p">Explore ações americanas, pré-IPOs e use a IA para tomar as melhores decisões.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- ──────────── CTA ──────────── -->
+<!-- ────────── CTA ────────── -->
 <section class="cta-sec">
-    <div class="container">
-        <div class="r">
-            <h2 class="cta-h2">O futuro dos<br>investimentos<br><span>começa agora.</span></h2>
-            <p class="cta-p">Junte-se a milhares de brasileiros que já acessam os mercados mais dinâmicos do planeta através da parceria Freeport × NovaDAX.</p>
-            <div class="cta-btns">
-                <a href="#" class="btn-g" style="font-size:16px;padding:16px 38px">
-                    Baixar o App
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9H15M15 9L10 4M15 9L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </a>
-                <a href="#features" class="btn-o" style="font-size:16px;padding:16px 38px">Saiba Mais</a>
-            </div>
-        </div>
+  <div class="container">
+    <h2 class="cta-h">O futuro dos<br>investimentos<br><span class="gt">começa agora.</span></h2>
+    <p class="cta-sub">Junte-se a quem já opera o mercado americano direto do Brasil com a Freeport x NovaDAX.</p>
+    <div class="cta-btns">
+      <a href="#credits" class="btn-green" style="font-size:16px;padding:16px 40px">
+        Resgatar Créditos
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9H15M15 9L10 4M15 9L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#news" class="btn-ghost" style="font-size:16px;padding:16px 40px">Ver Recursos</a>
     </div>
+  </div>
 </section>
 
-<!-- ──────────── FOOTER ──────────── -->
+<!-- ────────── FOOTER ────────── -->
 <footer>
-    <div class="container">
-        <div class="foot-inner">
-            <div class="foot-brand">
-                <svg width="22" height="22" viewBox="0 0 26 26" fill="none"><path d="M13 1.5L23.5 6.5V13C23.5 18.8 18.8 23.8 13 25.5C7.2 23.8 2.5 18.8 2.5 13V6.5L13 1.5Z" fill="rgba(0,212,100,0.12)" stroke="#00D464" stroke-width="1.4"/><path d="M8.5 15.5L9.5 11.5H16.5L17.5 15.5H8.5Z" fill="#00D464"/><path d="M10.5 11.5V9.5C10.5 8.4 11.4 7.5 12.5 7.5H13.5C14.6 7.5 15.5 8.4 15.5 9.5V11.5" stroke="#00D464" stroke-width="1.4" stroke-linecap="round"/></svg>
-                Freeport × NovaDAX
-            </div>
-            <div class="foot-legal">
-                <p>© 2025 Freeport Markets × NovaDAX. Todos os direitos reservados.</p>
-                <p style="margin-top:5px">Investimentos em ativos financeiros envolvem riscos e possibilidade de perda do capital investido. Rentabilidade passada não garante resultados futuros.</p>
-            </div>
-            <div class="foot-links">
-                <a href="#">Termos de Uso</a>
-                <a href="#">Privacidade</a>
-                <a href="#">Contato</a>
-            </div>
+  <div class="container">
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <div class="foot-fm">
+          <img src="New Freeport Markets logo.png" alt="Freeport Markets">
+          <span>Freeport Markets</span>
         </div>
+        <div class="foot-sep"></div>
+        <div class="foot-nd">
+          <div class="foot-nd-icon"><img src="Novologo.png" alt="NovaDAX"></div>
+          <span>NovaDAX</span>
+        </div>
+      </div>
+      <div class="foot-legal">
+        <p>© 2025 Freeport Markets x NovaDAX. Todos os direitos reservados.</p>
+        <p style="margin-top:5px">Investimentos envolvem riscos e possibilidade de perda do capital. Rentabilidade passada não garante resultados futuros. Verifique os termos antes de investir.</p>
+      </div>
+      <div class="foot-links">
+        <a href="#">Termos</a>
+        <a href="#">Privacidade</a>
+        <a href="#">Contato</a>
+      </div>
     </div>
+  </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-    // Nav scroll effect
-    window.addEventListener('scroll', () => {
-        document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
-    });
+gsap.registerPlugin(ScrollTrigger);
 
-    // Scroll reveal
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('v'); observer.unobserve(e.target); } });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    document.querySelectorAll('.r').forEach(el => observer.observe(el));
+// Nav
+ScrollTrigger.create({start:'top -60',onEnter:()=>document.getElementById('nav').classList.add('solid'),onLeaveBack:()=>document.getElementById('nav').classList.remove('solid')});
 
-    // Stat counter animation
-    function animateCounter(el, target, suffix = '') {
-        let v = 0, dur = 1400, step = target / (dur / 16);
-        const t = setInterval(() => {
-            v = Math.min(v + step, target);
-            el.textContent = Math.floor(v) + (v >= target ? suffix : '');
-            if (v >= target) clearInterval(t);
-        }, 16);
-    }
+// Hero
+gsap.from('#hc > *',{y:48,opacity:0,duration:1.05,stagger:.14,ease:'power3.out',delay:.1});
+gsap.from('.h-phone-back',{x:-80,opacity:0,duration:1.3,ease:'power3.out',delay:.5});
+gsap.from('.h-phone-front',{x:80,opacity:0,duration:1.3,ease:'power3.out',delay:.72});
 
-    const counterObs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                const el = e.target;
-                if (el.id === 's1') animateCounter(el, 500, '+');
-                if (el.id === 's2') animateCounter(el, 7, '');
-                counterObs.unobserve(el);
-            }
-        });
-    }, { threshold: 0.5 });
-    ['s1','s2'].forEach(id => { const el = document.getElementById(id); if (el) counterObs.observe(el); });
+// Partnership
+gsap.from('.part-logos,.part-headline,.part-sub',{
+  y:32,opacity:0,duration:.9,stagger:.12,ease:'power3.out',
+  scrollTrigger:{trigger:'.partnership',start:'top 78%',once:true}
+});
 
-    // Feature card mouse-follow glow
-    document.querySelectorAll('.feat-card').forEach(card => {
-        card.addEventListener('mousemove', e => {
-            const r = card.getBoundingClientRect();
-            card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
-            card.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
-        });
-    });
+// Credits
+gsap.from('.credits-card',{
+  y:28,opacity:0,duration:.9,ease:'power3.out',
+  scrollTrigger:{trigger:'.credits-card',start:'top 80%',once:true}
+});
+
+// Features
+document.querySelectorAll('.feat').forEach(sec=>{
+  const rev = !!sec.querySelector('.rev');
+  const copy = sec.querySelector('.feat-copy');
+  const vis  = sec.querySelector('.feat-vis');
+  if(!copy||!vis) return;
+  gsap.from(copy,{x:rev?50:-50,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:copy,start:'top 78%',once:true}});
+  gsap.from(vis, {x:rev?-50:50,opacity:0,duration:1,ease:'power3.out',delay:.12,scrollTrigger:{trigger:vis,start:'top 78%',once:true}});
+});
+
+
+// Steps
+gsap.from('.steps-row > div',{y:34,opacity:0,duration:.9,stagger:.14,ease:'power3.out',scrollTrigger:{trigger:'.steps-row',start:'top 76%',once:true}});
+
+// CTA
+gsap.from('.cta-h,.cta-sub,.cta-btns',{y:28,opacity:0,duration:.9,stagger:.1,ease:'power3.out',scrollTrigger:{trigger:'.cta-sec',start:'top 76%',once:true}});
 </script>
 </body>
 </html>
